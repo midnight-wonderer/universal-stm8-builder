@@ -1,14 +1,17 @@
 SRC_DIR ?= ./src
 VENDOR_DIR ?= ./vendor
 BIN_DIR ?= ./bin
+
+INCLUDE_PATHS += $(shell find . -type f -name '*.h' -not -path $(VENDOR_DIR) -exec dirname {} \; | sort | uniq)
+INCLUDE_PATHS += $(shell find $(VENDOR_DIR) -maxdepth 2 -type f -name '*.h' -exec dirname {} \; | sort | uniq)
+
 ENTRY_SOURCE_FILE ?= $(shell find $(SRC_DIR) -maxdepth 1 -name "main.c")
 APP_SOURCE_FILES ?= $(filter-out $(ENTRY_SOURCE_FILE), $(shell find $(SRC_DIR) -name "*.c"))
-INCLUDE_PATHS ?= $(shell find . -type f -name '*.h' -exec dirname {} \; | sort | uniq)
-LIB_SOURCE_FILES ?= $(shell find $(VENDOR_DIR) -type f -name '*.c' -exec dirname {} \; | sort | uniq)
+VENDOR_SOURCE_FILES ?= $(shell find $(VENDOR_DIR) -maxdepth 2 -type f -name '*.c' -exec dirname {} \; | sort | uniq)
 
-ENTRY_OBJECT=$(subst /./,/,$(addprefix $(BIN_DIR)/,$(ENTRY_SOURCE_FILE:.c=.rel)))
-APP_OBJECTS=$(subst /./,/,$(addprefix $(BIN_DIR)/,$(APP_SOURCE_FILES:.c=.rel)))
-LIB_OBJECTS=$(subst /./,/,$(addprefix $(BIN_DIR)/,$(LIB_SOURCE_FILES:.c=.rel)))
+ENTRY_OBJECT = $(subst /./,/,$(addprefix $(BIN_DIR)/,$(ENTRY_SOURCE_FILE:.c=.rel)))
+APP_OBJECTS = $(subst /./,/,$(addprefix $(BIN_DIR)/,$(APP_SOURCE_FILES:.c=.rel)))
+VENDOR_OBJECTS = $(subst /./,/,$(addprefix $(BIN_DIR)/,$(VENDOR_SOURCE_FILES:.c=.rel)))
 
 OUTPUT_HEX ?= $(BIN_DIR)/program.hex
 
@@ -22,7 +25,7 @@ $(BIN_DIR)/%.rel: %.c
 	mkdir -p $(dir $@) &&\
 	$(CC) -o $@ -c $(CFLAGS) $^
 
-$(BIN_DIR)/vendor.lib: $(LIB_OBJECTS)
+$(BIN_DIR)/vendor.lib: $(VENDOR_OBJECTS)
 	mkdir -p $(dir $@) &&\
 	[[ ! -z "$^" ]] &&\
 	$(AR) -rc $@ $^ ||\
