@@ -3,9 +3,9 @@ CC ?= sdcc
 AR ?= sdar
 
 ROOT_PATH ?= $(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
-SRC_DIR ?= ./src
-VENDOR_DIR ?= ./vendor
-BIN_DIR ?= ./bin
+SRC_DIR ?= $(ROOT_PATH)/src
+VENDOR_DIR ?= $(ROOT_PATH)/vendor
+BIN_DIR ?= $(ROOT_PATH)/bin
 ENTRY_SOURCE_FILE ?= $(shell find $(SRC_DIR) -maxdepth 1 -name "main.c")
 APP_SOURCE_FILES ?= $(filter-out $(ENTRY_SOURCE_FILE), $(shell find $(SRC_DIR) -name "*.c"))
 INCLUDE_PATHS ?= $(shell find $(VENDOR_DIR) -type f -name '*.h' -exec dirname {} \; | sort | uniq)
