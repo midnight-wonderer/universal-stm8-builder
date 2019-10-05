@@ -38,6 +38,14 @@ The constraints listed are not really rigid, but they lessen your works most of 
 * [GNU Make](https://www.gnu.org/software/make/)
 * [GNU Bash](https://www.gnu.org/software/bash/)
 
+## Usages
+
+- Include this script into your main Makefile
+- Configure some variables
+- Profits
+
+[A library compilation example](https://github.com/midnight-wonderer/stm8s-tim4-periodic-timer/blob/master/Makefile)
+
 ## License
 
 Universal STM8 Builder is released under the [MIT License](LICENSE.md). :tada:
