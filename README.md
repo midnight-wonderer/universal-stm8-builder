@@ -44,7 +44,9 @@ The constraints listed are not really rigid, but they lessen your works most of 
 - Configure some variables
 - Profits
 
-[A library compilation example](https://github.com/midnight-wonderer/stm8s-tim4-periodic-timer/blob/master/Makefile)
+Examples
+- [A library compilation example](https://github.com/midnight-wonderer/stm8s-tim4-periodic-timer/blob/master/Makefile)
+- [An embedded application compilation example](https://github.com/midnight-wonderer/composed-1hz/blob/master/Makefile)
 
 ## License
 
